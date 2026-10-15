@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f3f5f8; --surface:#fff; --ink:#1a2230; --muted:#5b6678; --line:#d5dbe4; --accent:#2f5bea;
+    --font:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:400 16px/1.7 var(--font); }
+  a { color:var(--accent); }
+  :focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+  .wrap { max-width:1160px; margin:0 auto; padding:0 24px; }
+  .top { background:var(--surface); border-bottom:1px solid var(--line); }
+  .bar { display:flex; align-items:center; gap:24px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; }
+  .brand { font-weight:600; color:var(--ink); text-decoration:none; }
+  nav { display:flex; gap:4px; flex-wrap:wrap; flex:1; }
+  nav a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:6px; }
+  nav a:hover { color:var(--ink); }
+  nav a[aria-current] { color:var(--ink); background:var(--bg); font-weight:500; }
+  main { padding-top:40px; padding-bottom:72px; }
+  h1 { margin:0 0 8px; font-size:clamp(1.9rem,4.5vw,2.8rem); font-weight:600; line-height:1.2; }
+  h2 { margin:32px 0 8px; font-size:1.3rem; font-weight:600; }
+  .tagline { margin:0 0 12px; font-size:1.15rem; color:var(--muted); }
+  .intro { max-width:62ch; }
+  .hint { margin:0 0 16px; color:var(--muted); font-size:.95rem; }
+  .links,.tags,.timeline,.items,.legend { list-style:none; padding:0; margin:0; }
+  .links { display:flex; gap:16px; flex-wrap:wrap; }
+  .tags { display:flex; gap:8px; flex-wrap:wrap; }
+  .tags li { background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:4px 14px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+  .card { display:block; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:20px; color:var(--ink); text-decoration:none; }
+  .card:hover { border-color:var(--accent); }
+  .card h3 { margin:0 0 4px; font-size:1.1rem; font-weight:600; }
+  .card p { margin:0; color:var(--muted); }
+  .timeline li { display:grid; grid-template-columns:150px 1fr; gap:16px; padding:12px 0; border-top:1px solid var(--line); }
+  .when { color:var(--muted); font-size:.95rem; }
+  .org { color:var(--muted); } .timeline p { margin:4px 0 0; }
+  .chip { font:inherit; font-size:.95rem; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:6px 12px; cursor:pointer; text-align:left; }
+  .chip:hover { border-color:var(--accent); }
+  .chip small { color:var(--muted); margin-left:6px; }
+  .filter { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 14px; margin:0 0 12px; }
+  .filter summary { cursor:pointer; font-weight:500; }
+  .filter-actions { display:flex; gap:8px; margin:12px 0 4px; }
+  .filter fieldset { border:0; margin:10px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:4px 16px; }
+  .filter legend { padding:0; margin:0 0 4px; font-size:.9rem; font-weight:500; }
+  .filter label { font-size:.95rem; cursor:pointer; }
+  .graph-grid { display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:16px; }
+  #cy { height:620px; background:var(--surface); border:1px solid var(--line); border-radius:8px; }
+  .legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:12px; font-size:.9rem; color:var(--muted); }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
+  .panel { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:20px; height:620px; overflow-y:auto; }
+  .panel h3 { margin:0 0 4px; font-size:1.25rem; font-weight:600; }
+  .panel .group { margin:0 0 12px; font-size:.9rem; font-weight:500; }
+  .panel img { display:block; width:100%; max-height:220px; object-fit:cover; border-radius:6px; margin:0 0 12px; }
+  .panel .desc { margin:0 0 16px; white-space:pre-line; }
+  .panel h4 { margin:16px 0 8px; font-size:.95rem; font-weight:600; }
+  .chips { display:flex; flex-direction:column; gap:6px; padding:0; margin:0; list-style:none; }
+  .chips .chip { width:100%; }
+  .item { display:flex; gap:12px; padding:12px 0; border-top:1px solid var(--line); }
+  .item p { margin:2px 0 0; color:var(--muted); }
+  .badge { flex:none; align-self:flex-start; font-size:.8rem; font-weight:500; background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:0 8px; }
+  @media (max-width:860px) { .graph-grid { grid-template-columns:1fr; } #cy { height:480px; } .panel { height:auto; }
+    .timeline li { grid-template-columns:1fr; gap:2px; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="brand" href="#home" id="brand"></a>
+  <nav id="nav" aria-label="Main"></nav>
+  <button type="button" class="chip" id="lang"></button>
+</div></header>
+<main class="wrap" id="view"></main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.30.2/cytoscape.min.js"></script>
+<script src="data/site.js"></script>
+<script src="data/life.js"></script>
+<script src="data/stats.js"></script>
+<script src="data/ai.js"></script>
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var lang = "en"; try { lang = localStorage.getItem("lang") || "en"; } catch (e) {}
+  var LABEL_ZOOM = 1.0; // zoom level at which small (interest) node names appear; larger = zoom in more
+  var ROUTES = ["home", "about", "life", "stats", "ai"];
+  var cy = null, selectedId = null, boxes = {};
+  var UI = {
+    home: { en: "Home", ko: "홈" }, about: { en: "About", ko: "소개" },
+    life: FIELDS.life.title, stats: FIELDS.stats.title, ai: FIELDS.ai.title,
+    interests: { en: "Interests", ko: "관심 분야" }, cv: { en: "CV", ko: "이력" }, experience: { en: "Experience", ko: "경력" },
+    explore: { en: "Explore", ko: "둘러보기" },
+    hint: { en: "Large nodes are core topics. Turn on small nodes below and zoom in to see their names. Select a node for details.",
+            ko: "큰 노드는 핵심 주제예요. 아래에서 작은 노드를 켜고 확대하면 이름이 보여요. 노드를 선택하면 설명이 나와요." },
+    toggle: { en: "Show or hide interest topics", ko: "관심 주제 켜고 끄기" },
+    allOn: { en: "Show all", ko: "모두 켜기" }, allOff: { en: "Hide all", ko: "모두 끄기" },
+    related: { en: "Connected topics", ko: "연결된 주제" }, off: { en: "hidden", ko: "꺼짐" },
+    back: { en: "Back to overview", ko: "전체 보기" },
+    pick: { en: "Select a node to read about it.", ko: "노드를 선택하면 설명이 여기에 나와요." },
+    items: { en: "Work, notes and outputs", ko: "작업, 공부 노트, 결과물" },
+    work: { en: "Work", ko: "작업" }, study: { en: "Study", ko: "공부" }, output: { en: "Output", ko: "결과물" },
+    open: { en: "Open", ko: "열기" }
+  };
+
+  function L(x) { return x == null ? "" : typeof x === "string" ? x : (x[lang] || x.en || ""); }
+  function el(t, c, x, p) {
+    var e = document.createElement(t);
+    if (c) e.className = c; if (x != null) e.textContent = x; if (p) p.appendChild(e); return e;
+  }
+  function link(p, text, url) {
+    var a = el("a", "", text, p); a.href = url;
+    if (url.indexOf("http") === 0) { a.target = "_blank"; a.rel = "noopener"; } return a;
+  }
+
+  function nav(r) {
+    var n = $("#nav"); n.textContent = "";
+    ROUTES.forEach(function (k) {
+      var a = el("a", "", L(UI[k]), n); a.href = "#" + k; if (k === r) a.setAttribute("aria-current", "page");
+    });
+    $("#brand").textContent = SITE.name;
+    $("#lang").textContent = lang === "en" ? "한국어" : "English";
+  }
+
+  function home(v) {
+    el("h1", "", SITE.name, v); el("p", "tagline", L(SITE.tagline), v); el("p", "intro", L(SITE.intro), v);
+    var ul = el("ul", "links", null, v);
+    SITE.links.forEach(function (l) { link(el("li", "", null, ul), l.label, l.url); });
+    el("h2", "", L(UI.explore), v);
+    var g = el("div", "cards", null, v);
+    ["life", "stats", "ai"].forEach(function (k) {
+      var a = el("a", "card", null, g); a.href = "#" + k;
+      el("h3", "", L(FIELDS[k].title), a); el("p", "", L(FIELDS[k].blurb), a);
+    });
+  }
+
+  function about(v) {
+    el("h1", "", L(UI.about), v);
+    el("h2", "", L(UI.interests), v);
+    var tg = el("ul", "tags", null, v); ABOUT.interests.forEach(function (i) { el("li", "", L(i), tg); });
+    ["cv", "experience"].forEach(function (k) {
+      el("h2", "", L(UI[k]), v);
+      var ul = el("ul", "timeline", null, v);
+      ABOUT[k].forEach(function (it) {
+        var li = el("li", "", null, ul); el("span", "when", it.when, li);
+        var b = el("div", "", null, li); el("strong", "", L(it.title), b);
+        if (it.org) el("div", "org", L(it.org), b); if (it.desc) el("p", "", L(it.desc), b);
+      });
+    });
+  }
+
+  function field(v, k) {
+    var F = FIELDS[k], ui = {};
+    el("h1", "", L(F.title), v); el("p", "hint", L(UI.hint), v);
+    var d = el("details", "filter", null, v); d.open = true; el("summary", "", L(UI.toggle), d);
+    var act = el("div", "filter-actions", null, d);
+    ui.on = el("button", "chip", L(UI.allOn), act); ui.off = el("button", "chip", L(UI.allOff), act);
+    ui.on.type = ui.off.type = "button"; ui.fg = el("div", "", null, d);
+    var grid = el("div", "graph-grid", null, v), left = el("div", "", null, grid);
+    el("div", "", null, left).id = "cy"; ui.lg = el("ul", "legend", null, left);
+    ui.panel = el("aside", "panel", null, grid); ui.panel.setAttribute("aria-live", "polite");
+    el("h2", "", L(UI.items), v);
+    var items = el("ul", "items", null, v);
+    (F.items || []).forEach(function (it) {
+      var li = el("li", "item", null, items); el("span", "badge", L(UI[it.type]), li);
+      var b = el("div", "", null, li); el("strong", "", L(it.title), b);
+      if (it.desc) el("p", "", L(it.desc), b); if (it.link) link(b, L(UI.open), it.link);
+    });
+    graph(F, ui);
+  }
+
+  function graph(F, ui) {
+    var byId = {}, deg = {}, FONT = "IBM Plex Sans KR, sans-serif";
+    boxes = {}; selectedId = null;
+    F.nodes.forEach(function (n) { byId[n.id] = n; deg[n.id] = 0; });
+    F.edges.forEach(function (e) { deg[e.source]++; deg[e.target]++; });
+    var els = F.nodes.map(function (n) {
+      var i = n.tier === "interest";
+      return { data: { id: n.id, label: L(n.label), color: F.groups[n.group].color, size: i ? 14 + deg[n.id] * 3 : 34 + deg[n.id] * 7 },
+               classes: i ? "interest" : "core" };
+    }).concat(F.edges.map(function (e, i) {
+      return { data: { id: "e" + i, source: e.source, target: e.target, label: L(e.label) } };
+    }));
+
+    cy = cytoscape({
+      container: $("#cy"), elements: els, minZoom: 0.4, maxZoom: 2.5,
+      style: [
+        { selector: "node", style: { "background-color": "data(color)", width: "data(size)", height: "data(size)", label: "data(label)",
+            "font-family": FONT, "font-size": 13, color: "#1a2230", "text-valign": "bottom", "text-margin-y": 6, "text-wrap": "wrap", "text-max-width": 90 } },
+        { selector: "node.interest", style: { "font-size": 11, "min-zoomed-font-size": 11 * LABEL_ZOOM, "text-margin-y": 4 } },
+        { selector: ".off", style: { display: "none" } },
+        { selector: "edge", style: { width: 1.5, "line-color": "#b8c1cf", "curve-style": "bezier" } },
+        { selector: "edge.hl", style: { "line-color": "#2f5bea", width: 2.5, label: "data(label)", "font-size": 10, "font-family": FONT, color: "#5b6678",
+            "text-background-color": "#fff", "text-background-opacity": 1, "text-background-padding": 2, "text-rotation": "autorotate" } },
+        { selector: ".faded", style: { opacity: 0.18 } },
+        { selector: "node:selected", style: { "border-width": 3, "border-color": "#1a2230" } }
+      ],
+      layout: { name: "cose", animate: false, padding: 40, randomize: true, nodeRepulsion: 12000, idealEdgeLength: 100, nodeOverlap: 40, nodeDimensionsIncludeLabels: true }
+    });
+
+    // Push overlapping nodes apart (hidden nodes keep their space, so toggling never moves anything)
+    var nodes = cy.nodes(), GAP = 30;
+    for (var k = 0; k < 300; k++) {
+      var moved = false;
+      for (var i = 0; i < nodes.length; i++) for (var j = i + 1; j < nodes.length; j++) {
+        var a = nodes[i], b = nodes[j], pa = a.position(), pb = b.position();
+        var dx = pb.x - pa.x, dy = pb.y - pa.y, dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
+        var min = (a.data("size") + b.data("size")) / 2 + GAP;
+        if (dist < min) {
+          var push = (min - dist) / 2, ux = dx / dist, uy = dy / dist;
+          a.position({ x: pa.x - ux * push, y: pa.y - uy * push });
+          b.position({ x: pb.x + ux * push, y: pb.y + uy * push });
+          moved = true;
+        }
+      }
+      if (!moved) break;
+    }
+
+    Object.keys(F.groups).forEach(function (g) {
+      var li = el("li", "", null, ui.lg), dot = el("i", "", null, li); dot.style.background = F.groups[g].color;
+      li.appendChild(document.createTextNode(L(F.groups[g].name)));
+    });
+
+    function chip(label, note, id) {
+      var li = document.createElement("li"), b = el("button", "chip", label, li); b.type = "button";
+      if (note) el("small", "", note, b);
+      b.addEventListener("click", function () { show(id); }); return li;
+    }
+    function setVisible(id, on, pan) {
+      var n = cy.getElementById(id); if (n.empty() || !n.hasClass("interest")) return;
+      n.toggleClass("off", !on); if (boxes[id]) boxes[id].checked = on;
+      if (on && pan) cy.animate({ center: { eles: n }, duration: 300 });
+    }
+
+    Object.keys(F.groups).forEach(function (g) {
+      var items = F.nodes.filter(function (n) { return n.tier === "interest" && n.group === g; });
+      if (!items.length) return;
+      var fs = el("fieldset", "", null, ui.fg); el("legend", "", L(F.groups[g].name), fs);
+      items.forEach(function (n) {
+        var lb = el("label", "", null, fs), cb = el("input", "", null, lb); cb.type = "checkbox";
+        lb.appendChild(document.createTextNode(" " + L(n.label))); boxes[n.id] = cb;
+        cb.addEventListener("change", function () { setVisible(n.id, cb.checked, true); if (!cb.checked && selectedId === n.id) reset(); });
+      });
+    });
+    ui.on.addEventListener("click", function () { Object.keys(boxes).forEach(function (id) { setVisible(id, true); }); });
+    ui.off.addEventListener("click", function () {
+      Object.keys(boxes).forEach(function (id) { setVisible(id, false); }); if (selectedId && boxes[selectedId]) reset();
+    });
+
+    function empty() { ui.panel.textContent = ""; el("p", "desc", L(UI.pick), ui.panel); }
+    function show(id) {
+      var node = cy.getElementById(id), data = byId[id]; if (node.empty() || !data) return;
+      if (node.hasClass("off")) setVisible(id, true);
+      selectedId = id;
+      cy.elements().removeClass("faded hl"); cy.elements().unselect(); node.select();
+      cy.elements().not(node.closedNeighborhood()).addClass("faded"); node.connectedEdges().addClass("hl");
+      cy.animate({ center: { eles: node }, duration: 300 });
+      var p = ui.panel; p.textContent = "";
+      el("h3", "", L(data.label), p);
+      var g = el("p", "group", L(F.groups[data.group].name), p); g.style.color = F.groups[data.group].color;
+      if (data.image) { var img = el("img", "", null, p); img.src = data.image; img.alt = L(data.label); img.addEventListener("error", function () { img.remove(); }); }
+      el("p", "desc", L(data.description), p);
+      var nb = node.neighborhood("node");
+      if (nb.length) {
+        el("h4", "", L(UI.related), p); var ul = el("ul", "chips", null, p);
+        nb.forEach(function (m) {
+          var e = node.edgesWith(m)[0];
+          ul.appendChild(chip(m.data("label"), (e ? e.data("label") : "") + (m.hasClass("off") ? " (" + L(UI.off) + ")" : ""), m.id()));
+        });
+      }
+      var back = el("button", "chip", L(UI.back), p); back.type = "button"; back.style.marginTop = "16px"; back.addEventListener("click", reset);
+    }
+    function reset() {
+      selectedId = null; cy.elements().removeClass("faded hl"); cy.elements().unselect();
+      cy.animate({ fit: { eles: cy.nodes().not(".off"), padding: 40 }, duration: 300 }); empty();
+    }
+    cy.on("tap", "node", function (e) { show(e.target.id()); });
+    cy.on("tap", function (e) { if (e.target === cy) reset(); });
+
+    F.nodes.forEach(function (n) { if (n.tier === "interest") setVisible(n.id, !!n.on); });
+    cy.fit(cy.nodes().not(".off"), 40); empty();
+  }
+
+  function route() {
+    var r = (location.hash || "#home").slice(1); if (ROUTES.indexOf(r) < 0) r = "home";
+    if (cy) { cy.destroy(); cy = null; }
+    document.documentElement.lang = lang;
+    var v = $("#view"); v.textContent = ""; nav(r);
+    if (r === "home") home(v); else if (r === "about") about(v); else field(v, r);
+    window.scrollTo(0, 0);
+  }
+  $("#lang").addEventListener("click", function () {
+    lang = lang === "en" ? "ko" : "en"; try { localStorage.setItem("lang", lang); } catch (e) {} route();
+  });
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>
