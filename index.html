@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f3f5f8; --surface:#fff; --ink:#1a2230; --muted:#5b6678; --line:#d5dbe4; --accent:#2f5bea;
+    --font:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:400 16px/1.7 var(--font); }
+  a { color:var(--accent); }
+  :focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+  .wrap { max-width:1160px; margin:0 auto; padding:0 24px; }
+  .top { background:var(--surface); border-bottom:1px solid var(--line); }
+  .bar { display:flex; align-items:center; gap:24px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; }
+  .brand { font-weight:600; color:var(--ink); text-decoration:none; }
+  nav { display:flex; gap:4px; flex-wrap:wrap; flex:1; }
+  nav a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:6px; }
+  nav a:hover { color:var(--ink); }
+  nav a[aria-current] { color:var(--ink); background:var(--bg); font-weight:500; }
+  main { padding-top:40px; padding-bottom:72px; }
+  h1 { margin:0 0 8px; font-size:clamp(1.9rem,4.5vw,2.8rem); font-weight:600; line-height:1.2; }
+  h2 { margin:32px 0 8px; font-size:1.3rem; font-weight:600; }
+  .tagline { margin:0 0 12px; font-size:1.15rem; color:var(--muted); }
+  .intro { max-width:62ch; }
+  .hint { margin:0 0 16px; color:var(--muted); font-size:.95rem; }
+  .links,.tags,.timeline,.items,.legend { list-style:none; padding:0; margin:0; }
+  .links { display:flex; gap:16px; flex-wrap:wrap; }
+  .tags { display:flex; gap:8px; flex-wrap:wrap; }
+  .tags li { background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:4px 14px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+  .card { display:block; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:20px; color:var(--ink); text-decoration:none; }
+  .card:hover { border-color:var(--accent); }
+  .card h3 { margin:0 0 4px; font-size:1.1rem; font-weight:600; }
+  .card p { margin:0; color:var(--muted); }
+  .timeline li { display:grid; grid-template-columns:150px 1fr; gap:16px; padding:12px 0; border-top:1px solid var(--line); }
+  .when { color:var(--muted); font-size:.95rem; }
+  .org { color:var(--muted); } .timeline p { margin:4px 0 0; }
+  .chip { font:inherit; font-size:.95rem; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:6px 12px; cursor:pointer; text-align:left; }
+  .chip:hover { border-color:var(--accent); }
+  .chip small { color:var(--muted); margin-left:6px; }
+  .filter { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 14px; margin:0 0 12px; }
+  .filter summary { cursor:pointer; font-weight:500; }
+  .filter-actions { display:flex; gap:8px; margin:12px 0 4px; }
+  .filter fieldset { border:0; margin:10px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:4px 16px; }
+  .filter legend { padding:0; margin:0 0 4px; font-size:.9rem; font-weight:500; }
+  .filter label { font-size:.95rem; cursor:pointer; }
+  .graph-grid { display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:16px; }
+  #cy { height:620px; background:var(--surface); border:1px solid var(--line); border-radius:8px; }
+  .legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:12px; font-size:.9rem; color:var(--muted); }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
+  .panel { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:20px; height:620px; overflow-y:auto; }
+  .panel h3 { margin:0 0 4px; font-size:1.25rem; font-weight:600; }
+  .panel .group { margin:0 0 12px; font-size:.9rem; font-weight:500; }
+  .panel img { display:block; width:100%; max-height:220px; object-fit:cover; border-radius:6px; margin:0 0 12px; }
+  .panel .desc { margin:0 0 16px; white-space:pre-line; }
+  .panel h4 { margin:16px 0 8px; font-size:.95rem; font-weight:600; }
+  .chips { display:flex; flex-direction:column; gap:6px; padding:0; margin:0; list-style:none; }
+  .chips .chip { width:100%; }
+  .item { display:flex; gap:12px; padding:12px 0; border-top:1px solid var(--line); }
+  .item p { margin:2px 0 0; color:var(--muted); }
+  .badge { flex:none; align-self:flex-start; font-size:.8rem; font-weight:500; background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:0 8px; }
+  .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:0 0 12px; }
+  .toolbar .chip { text-align:center; min-width:36px; }
+  .pct, .count { color:var(--muted); font-size:.9rem; }
+  .count { margin-left:auto; }
+  .panel .sub { margin:0 0 8px; color:var(--muted); }
+  @media (max-width:860px) { .graph-grid { grid-template-columns:1fr; } #cy { height:480px; } .panel { height:auto; }
+    .timeline li { grid-template-columns:1fr; gap:2px; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="brand" href="#home" id="brand"></a>
+  <nav id="nav" aria-label="Main"></nav>
+  <button type="button" class="chip" id="lang"></button>
+</div></header>
+<main class="wrap" id="view"></main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.30.2/cytoscape.min.js"></script>
+<script src="data/site.js"></script>
+<script src="data/life.js"></script>
+<script src="data/stats.js"></script>
+<script src="data/ai.js"></script>
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var lang = "en"; try { lang = localStorage.getItem("lang") || "en"; } catch (e) {}
+  var LABEL_ZOOM = 0.6; // zoom level at which names of deeper (small) nodes appear; larger = zoom in more
+  var ROUTES = ["home", "about", "life", "stats", "ai"];
+  var cy = null, selectedId = null, boxes = {};
+  var UI = {
+    home: { en: "Home", ko: "홈" }, about: { en: "About", ko: "소개" },
+    life: FIELDS.life.title, stats: FIELDS.stats.title, ai: FIELDS.ai.title,
+    interests: { en: "Interests", ko: "관심 분야" }, cv: { en: "CV", ko: "이력" }, experience: { en: "Experience", ko: "경력" },
+    explore: { en: "Explore", ko: "둘러보기" },
+    hint: { en: "Select a node to open it and reveal its subtopics. Select it again to collapse. Drag to pan, scroll to zoom.",
+            ko: "노드를 선택하면 하위 주제가 펼쳐져요. 한 번 더 선택하면 접혀요. 드래그로 이동하고 스크롤로 확대·축소해요." },
+    sub: { en: "Subtopics", ko: "하위 주제" }, fit: { en: "Fit", ko: "전체 보기" },
+    expandAll: { en: "Expand all", ko: "모두 펼치기" }, collapseAll: { en: "Collapse all", ko: "모두 접기" },
+    zoomIn: { en: "Zoom in", ko: "확대" }, zoomOut: { en: "Zoom out", ko: "축소" },
+    showing: { en: "Showing {a} of {b} topics", ko: "주제 {b}개 중 {a}개 표시" },
+    toggle: { en: "Show or hide interest topics", ko: "관심 주제 켜고 끄기" },
+    allOn: { en: "Show all", ko: "모두 켜기" }, allOff: { en: "Hide all", ko: "모두 끄기" },
+    related: { en: "Connected topics", ko: "연결된 주제" }, off: { en: "hidden", ko: "꺼짐" },
+    back: { en: "Back to overview", ko: "전체 보기" },
+    pick: { en: "Select a node to read about it.", ko: "노드를 선택하면 설명이 여기에 나와요." },
+    items: { en: "Work, notes and outputs", ko: "작업, 공부 노트, 결과물" },
+    work: { en: "Work", ko: "작업" }, study: { en: "Study", ko: "공부" }, output: { en: "Output", ko: "결과물" },
+    open: { en: "Open", ko: "열기" }
+  };
+
+  function L(x) { return x == null ? "" : typeof x === "string" ? x : (x[lang] || x.en || ""); }
+  function el(t, c, x, p) {
+    var e = document.createElement(t);
+    if (c) e.className = c; if (x != null) e.textContent = x; if (p) p.appendChild(e); return e;
+  }
+  function link(p, text, url) {
+    var a = el("a", "", text, p); a.href = url;
+    if (url.indexOf("http") === 0) { a.target = "_blank"; a.rel = "noopener"; } return a;
+  }
+
+  function nav(r) {
+    var n = $("#nav"); n.textContent = "";
+    ROUTES.forEach(function (k) {
+      var a = el("a", "", L(UI[k]), n); a.href = "#" + k; if (k === r) a.setAttribute("aria-current", "page");
+    });
+    $("#brand").textContent = SITE.name;
+    $("#lang").textContent = lang === "en" ? "한국어" : "English";
+  }
+
+  function home(v) {
+    el("h1", "", SITE.name, v); el("p", "tagline", L(SITE.tagline), v); el("p", "intro", L(SITE.intro), v);
+    var ul = el("ul", "links", null, v);
+    SITE.links.forEach(function (l) { link(el("li", "", null, ul), l.label, l.url); });
+    el("h2", "", L(UI.explore), v);
+    var g = el("div", "cards", null, v);
+    ["life", "stats", "ai"].forEach(function (k) {
+      var a = el("a", "card", null, g); a.href = "#" + k;
+      el("h3", "", L(FIELDS[k].title), a); el("p", "", L(FIELDS[k].blurb), a);
+    });
+  }
+
+  function about(v) {
+    el("h1", "", L(UI.about), v);
+    el("h2", "", L(UI.interests), v);
+    var tg = el("ul", "tags", null, v); ABOUT.interests.forEach(function (i) { el("li", "", L(i), tg); });
+    ["cv", "experience"].forEach(function (k) {
+      el("h2", "", L(UI[k]), v);
+      var ul = el("ul", "timeline", null, v);
+      ABOUT[k].forEach(function (it) {
+        var li = el("li", "", null, ul); el("span", "when", it.when, li);
+        var b = el("div", "", null, li); el("strong", "", L(it.title), b);
+        if (it.org) el("div", "org", L(it.org), b); if (it.desc) el("p", "", L(it.desc), b);
+      });
+    });
+  }
+
+  function field(v, k) {
+    var F = FIELDS[k], ui = {};
+    el("h1", "", L(F.title), v); el("p", "hint", L(UI.hint), v);
+    var bar = el("div", "toolbar", null, v);
+    function btn(txt, aria) { var b = el("button", "chip", txt, bar); b.type = "button"; if (aria) b.setAttribute("aria-label", aria); return b; }
+    ui.out = btn("−", L(UI.zoomOut)); ui.pct = el("span", "pct", "100%", bar); ui.zin = btn("+", L(UI.zoomIn));
+    ui.fit = btn(L(UI.fit)); ui.exp = btn(L(UI.expandAll)); ui.col = btn(L(UI.collapseAll));
+    ui.count = el("span", "count", "", bar);
+    var grid = el("div", "graph-grid", null, v), left = el("div", "", null, grid);
+    el("div", "", null, left).id = "cy"; ui.lg = el("ul", "legend", null, left);
+    ui.panel = el("aside", "panel", null, grid); ui.panel.setAttribute("aria-live", "polite");
+    el("h2", "", L(UI.items), v);
+    var items = el("ul", "items", null, v);
+    (F.items || []).forEach(function (it) {
+      var li = el("li", "item", null, items); el("span", "badge", L(UI[it.type]), li);
+      var b = el("div", "", null, li); el("strong", "", L(it.title), b);
+      if (it.desc) el("p", "", L(it.desc), b); if (it.link) link(b, L(UI.open), it.link);
+    });
+    graph(F, ui);
+  }
+
+  // Expandable mind map: the field is the center node, and selecting a node opens its subtopics around it.
+  function graph(F, ui) {
+    var FONT = "IBM Plex Sans KR, sans-serif", SIZE = [74, 46, 32, 24, 20], RAD = [0, 200, 380, 540, 680];
+    var byId = { root: { id: "root", label: F.title, description: F.blurb, group: null } };
+    var kids = {}, depth = { root: 0 }, open = { root: true }, selectedId = null;
+    F.nodes.forEach(function (n) {
+      byId[n.id] = n; n.parent = n.parent || "root"; (kids[n.parent] = kids[n.parent] || []).push(n.id);
+    });
+    function dep(id) { if (depth[id] == null) depth[id] = dep(byId[id].parent) + 1; return depth[id]; }
+    function color(id) { return id === "root" ? "#1a2230" : F.groups[byId[id].group].color; }
+    function name(id) { return L(byId[id].label); }
+
+    var els = [{ data: { id: "root", color: color("root"), size: SIZE[0], fs: 13 }, classes: "root" }];
+    F.nodes.forEach(function (n) {
+      var d = dep(n.id);
+      els.push({ data: { id: n.id, color: color(n.id), size: SIZE[Math.min(d, 4)], fs: d > 1 ? 11 : 12 }, classes: "d" + Math.min(d, 3) });
+      els.push({ data: { id: "t_" + n.id, source: n.parent, target: n.id } });
+    });
+    F.edges.forEach(function (e, i) {
+      var a = byId[e.source], b = byId[e.target];
+      if (a.parent === e.target || b.parent === e.source) return; // parent-child links already exist as tree lines
+      els.push({ data: { id: "x" + i, source: e.source, target: e.target, label: L(e.label) }, classes: "cross" });
+    });
+
+    cy = cytoscape({
+      container: $("#cy"), elements: els, minZoom: 0.3, maxZoom: 2.5, layout: { name: "preset" },
+      style: [
+        { selector: "node", style: { "background-color": "data(color)", width: "data(size)", height: "data(size)", label: "data(label)",
+            "font-family": FONT, "font-size": "data(fs)", color: "#1a2230", "text-valign": "bottom", "text-margin-y": 6, "text-wrap": "wrap", "text-max-width": 90 } },
+        { selector: "node.root", style: { "text-valign": "center", "text-margin-y": 0, color: "#fff", "text-max-width": 62, "font-weight": 600 } },
+        { selector: "node.d2, node.d3", style: { "min-zoomed-font-size": 11 * LABEL_ZOOM } },
+        { selector: "node.collapsed", style: { "border-width": 4, "border-style": "double", "border-color": "#1a2230" } },
+        { selector: "node:selected", style: { "border-width": 3, "border-style": "solid", "border-color": "#1a2230" } },
+        { selector: ".off", style: { display: "none" } },
+        { selector: "edge", style: { width: 1.5, "line-color": "#b8c1cf", "curve-style": "bezier" } },
+        { selector: "edge.cross", style: { display: "none", "line-style": "dashed", "line-color": "#2f5bea", label: "data(label)", "font-size": 10,
+            "font-family": FONT, color: "#5b6678", "text-background-color": "#fff", "text-background-opacity": 1, "text-background-padding": 2, "text-rotation": "autorotate" } },
+        { selector: "edge.cross.hl", style: { display: "element" } }
+      ]
+    });
+
+    // Radial tree layout: each visible node gets an angular wedge sized by its visible leaves, so nodes never overlap.
+    function layoutPos() {
+      var out = {};
+      function leaves(id) {
+        var k = open[id] && kids[id];
+        return k && k.length ? k.reduce(function (s, c) { return s + leaves(c); }, 0) : 1;
+      }
+      function put(id, a0, a1) {
+        var d = dep(id), ang = (a0 + a1) / 2, r = d < RAD.length ? RAD[d] : RAD[RAD.length - 1] + (d - RAD.length + 1) * 140;
+        out[id] = { x: r * Math.cos(ang), y: r * Math.sin(ang) };
+        var k = open[id] && kids[id]; if (!k || !k.length) return;
+        var tot = leaves(id), cur = a0;
+        k.forEach(function (c) { var span = (a1 - a0) * leaves(c) / tot; put(c, cur, cur + span); cur += span; });
+      }
+      put("root", -Math.PI / 2, 1.5 * Math.PI); return out;
+    }
+    function mark(id) { var k = kids[id]; return k && k.length && id !== "root" ? (open[id] ? " −" : " +") : ""; }
+
+    function sync(animate) {
+      var pos = layoutPos(), shown = 0;
+      cy.nodes().forEach(function (n) {
+        var id = n.id(), p = pos[id], was = n.hasClass("off"), hasKids = !!(kids[id] && kids[id].length) && id !== "root";
+        n.data("label", (id === "root" ? L(F.title) : name(id)) + mark(id));
+        n.toggleClass("collapsed", hasKids && !open[id]);
+        n.stop();
+        if (!p) { n.addClass("off"); return; }
+        shown++;
+        if (was) { n.position(pos[byId[id].parent] || p); n.removeClass("off"); }
+        if (animate) n.animate({ position: p }, { duration: 300 }); else n.position(p);
+      });
+      ui.count.textContent = L(UI.showing).replace("{a}", shown).replace("{b}", cy.nodes().length);
+      return pos;
+    }
+    function fitTo(pos, animate) {
+      var xs = [], ys = [], w = cy.width(), h = cy.height(), pad = 90;
+      Object.keys(pos).forEach(function (id) { xs.push(pos[id].x); ys.push(pos[id].y); });
+      var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+      var z = Math.min(1.5, Math.max(0.3, Math.min((w - 2 * pad) / Math.max(1, x1 - x0), (h - 2 * pad) / Math.max(1, y1 - y0))));
+      var pan = { x: w / 2 - z * (x0 + x1) / 2, y: h / 2 - z * (y0 + y1) / 2 };
+      if (animate) cy.animate({ zoom: z, pan: pan }, { duration: 300 }); else { cy.zoom(z); cy.pan(pan); }
+    }
+    function centerOn(p) {
+      var z = cy.zoom(); cy.animate({ pan: { x: cy.width() / 2 - p.x * z, y: cy.height() / 2 - p.y * z } }, { duration: 300 });
+    }
+
+    function list(parent, ids) {
+      var ul = el("ul", "chips", null, parent);
+      ids.forEach(function (id) {
+        var b = el("button", "chip", id === "root" ? L(F.title) : name(id), el("li", "", null, ul)); b.type = "button";
+        b.addEventListener("click", function () { goTo(id); });
+      });
+    }
+    function panel(id) {
+      var p = ui.panel, d = byId[id], other = lang === "en" ? "ko" : "en"; p.textContent = "";
+      el("h3", "", L(d.label), p); el("p", "sub", d.label[other] || "", p);
+      if (d.group) { var g = el("p", "group", L(F.groups[d.group].name), p); g.style.color = F.groups[d.group].color; }
+      if (d.image) { var img = el("img", "", null, p); img.src = d.image; img.alt = L(d.label); img.addEventListener("error", function () { img.remove(); }); }
+      el("p", "desc", L(d.description), p);
+      if (kids[id] && kids[id].length) { el("h4", "", L(UI.sub), p); list(p, kids[id]); }
+      var rel = []; if (d.parent) rel.push(d.parent);
+      cy.getElementById(id).connectedEdges(".cross").forEach(function (e) {
+        rel.push(e.source().id() === id ? e.target().id() : e.source().id());
+      });
+      if (rel.length) { el("h4", "", L(UI.related), p); list(p, rel); }
+    }
+    function select(id) {
+      selectedId = id; cy.elements().removeClass("hl"); cy.elements().unselect();
+      var n = cy.getElementById(id); n.select(); n.connectedEdges(".cross").addClass("hl"); panel(id);
+    }
+    function goTo(id) {
+      var q = byId[id].parent; while (q && q !== "root") { open[q] = true; q = byId[q].parent; }
+      var pos = sync(true); select(id); centerOn(pos[id]);
+    }
+
+    cy.on("tap", "node", function (e) {
+      var id = e.target.id();
+      if (id !== "root" && kids[id] && kids[id].length) open[id] = selectedId === id ? !open[id] : true;
+      var pos = sync(true); select(id); centerOn(pos[id]);
+    });
+    function zoomBy(f) {
+      cy.zoom({ level: Math.min(2.5, Math.max(0.3, cy.zoom() * f)), renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 } });
+    }
+    ui.out.addEventListener("click", function () { zoomBy(0.8); });
+    ui.zin.addEventListener("click", function () { zoomBy(1.25); });
+    ui.fit.addEventListener("click", function () { fitTo(layoutPos(), true); });
+    ui.exp.addEventListener("click", function () {
+      Object.keys(kids).forEach(function (id) { open[id] = true; }); fitTo(sync(true), true);
+    });
+    ui.col.addEventListener("click", function () { open = { root: true }; fitTo(sync(true), true); select("root"); });
+    cy.on("zoom", function () { ui.pct.textContent = Math.round(cy.zoom() * 100) + "%"; });
+
+    Object.keys(F.groups).forEach(function (g) {
+      var li = el("li", "", null, ui.lg), dot = el("i", "", null, li); dot.style.background = F.groups[g].color;
+      li.appendChild(document.createTextNode(L(F.groups[g].name)));
+    });
+
+    cy.nodes().addClass("off"); fitTo(sync(false), false); select("root");
+  }
+
+  function route() {
+    var r = (location.hash || "#home").slice(1); if (ROUTES.indexOf(r) < 0) r = "home";
+    if (cy) { cy.destroy(); cy = null; }
+    document.documentElement.lang = lang;
+    var v = $("#view"); v.textContent = ""; nav(r);
+    if (r === "home") home(v); else if (r === "about") about(v); else field(v, r);
+    window.scrollTo(0, 0);
+  }
+  $("#lang").addEventListener("click", function () {
+    lang = lang === "en" ? "ko" : "en"; try { localStorage.setItem("lang", lang); } catch (e) {} route();
+  });
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>
